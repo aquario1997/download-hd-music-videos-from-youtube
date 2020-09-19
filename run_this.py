@@ -1,13 +1,13 @@
 import os
 from mhmovie.code import *
 
-temp_folder = "to be deleted"
+temp_folder = "temp folder"
 # promt to ask for the video link
 video_url = input("Paste the link of the video: ")
 
 # video format to be downloaded according to youtube-dl
 video_format = "399"  # FHD format
-video_format = "394"  # lowest quality format
+# video_format = "394"  # lowest quality format
 audio_format = "140"
 
 # make a temporary directory named 'cache'
