@@ -1,6 +1,6 @@
-1. Download the video and audio files before running the script.
-2. Video must be of mp4 format and audio should be of mp3
-3. Place both in the mixer folder.
-4. Execute the script.
-5. If there is no problem, the final output file should be generated and placed in the mixer file.
+1. Run 'run_this.py' file with python.
+2. Paste the youtube link in the terminal when prompt.
+3. Wait until the script prompts again to enter a name for the final video.
+4. Check if the video is properly downloaded and if the temp folder is properly deleted.
+5. Imp: If the temp folder already exists, delete or move it.
 
