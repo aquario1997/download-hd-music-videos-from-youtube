@@ -1,59 +1,40 @@
 import os
-from mhmovie.code import *
+import tkinter as tk
+from tkinter import filedialog
 
-temp_folder = "temp_folder"
-# prompt to ask for the video link
+def download_video_with_audio(link, quality, target_directory):
+    os.chdir(target_directory)
+    os.system("youtube-dl -f \"bestvideo[height<={quality}]+bestaudio\" --write-srt --sub-lang en {link}".format(quality=quality, link=link))
+    # print("youtube-dl -f \"bestvideo[height<={quality}]+bestaudio[height<={quality}]\" {link}".format(quality=quality, link=link))
 
-# video_url = input("Paste the link of the video: ")
-youtube_link_list = []
-condition = True
-while condition:
-    link = input("Paste the link of the video: ")
-    if link == "":
-        condition = False
-        continue
-    youtube_link_list.append(link)
+if __name__ == "__main__":
+    video_links = set()
 
-# Check for repeating links
-final_youtube_link_list = set(youtube_link_list)
-for video_url in final_youtube_link_list:
-    # video format to be downloaded according to youtube-dl
-    video_format = "399"  # FHD format
-    # video_format = "394"  # lowest quality format
-    audio_format = "140"
+    while True:
+        link = input("Please paste the video link: ")
+        if not link:
+            break
+        video_links.add(link) 
+    
+    video_qualities = {
+                        1: 2160,
+                        2: 1440,
+                        3: 1080,
+                        4: 720,
+                        5: 480,
+                        6: 360,
+                        7: 240,
+                        8: 144,
+                        }
+    for i in video_qualities:
+        print(i, video_qualities[i])
+    code = int(input("Please select the code for the desired video quality: "))
+    video_quality = str(video_qualities[code])
 
-    # make a temporary directory named 'temp_folder'
-    os.mkdir('.\\{}'.format(temp_folder))
-    # change working directory to 'cache'
-    os.chdir('.\\{}'.format(temp_folder))
+    print("Note that the final output may have lower resolution depending on the availability.")
 
-    # cmd command to download the video and audio of the specified formats.
-    os.system('cmd /c "youtube-dl -f {} {}"'.format(video_format, video_url))
-    os.system('cmd /c "youtube-dl -f {} {}"'.format(audio_format, video_url))
+    print("Please select the save folder")
+    target_directory = filedialog.askdirectory()
 
-    # change the format of the audio file from .m4a to .mp3
-    # delete the .m4a file after conversion
-    final_file_name = ""
-    for file in os.listdir():
-        if '.mp4' in file:
-            final_file_name = file
-
-        if '.m4a' in file:
-            os.system('cmd /c "ffmpeg -i \"{}\" audio.mp3"'.format(file))
-            os.remove(file)
-
-    os.chdir('..')
-
-    # using mhmovie library, combining video with audio.
-    f = folder("{}".format(temp_folder))
-    f.save()
-
-    # renaming the output video file and moving it to the primary folder
-    os.rename('.\\{}\\output.mp4'.format(temp_folder), '.\\' + final_file_name)
-
-    # deleting all the files in the cache folder
-    for file in os.listdir('{}'.format(temp_folder)):
-        os.remove(os.path.join(temp_folder, file))
-
-    # finally removing the cache folder
-    os.rmdir(temp_folder)
+    for link in video_links:
+        download_video_with_audio(link=link, quality=video_quality, target_directory=target_directory)
