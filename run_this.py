@@ -5,7 +5,6 @@ from tkinter import filedialog
 def download_video_with_audio(link, quality, target_directory):
     os.chdir(target_directory)
     os.system("youtube-dl -f \"bestvideo[height<={quality}]+bestaudio\" --write-srt --sub-lang en {link}".format(quality=quality, link=link))
-    # print("youtube-dl -f \"bestvideo[height<={quality}]+bestaudio[height<={quality}]\" {link}".format(quality=quality, link=link))
 
 if __name__ == "__main__":
     video_links = set()
